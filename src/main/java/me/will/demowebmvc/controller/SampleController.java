@@ -1,5 +1,6 @@
 package me.will.demowebmvc.controller;
 
+import me.will.demowebmvc.config.GetHelloMapping;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +53,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SampleController {
 
-	@RequestMapping("/hello") // 따로 HTTP Method를 지정하지 않으면, 기본적으로 모든 HTTP Method.
+	@GetHelloMapping // 따로 HTTP Method를 지정하지 않으면, 기본적으로 모든 HTTP Method.
 	public String hello() {
 		return "hello";
 	}

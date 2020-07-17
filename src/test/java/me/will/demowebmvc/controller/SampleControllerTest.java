@@ -36,8 +36,7 @@ class SampleControllerTest {
 	void postHelloTest() throws Exception {
 		mockMvc.perform(post("/hello"))
 				.andDo(print())
-				.andExpect(status().isOk())
-				.andExpect(content().string("hello"));
+				.andExpect(status().isMethodNotAllowed());
 	}
 
 	@Test
