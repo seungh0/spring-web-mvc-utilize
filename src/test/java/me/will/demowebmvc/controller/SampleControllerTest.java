@@ -3,6 +3,7 @@ package me.will.demowebmvc.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -50,7 +51,7 @@ class SampleControllerTest {
 	}
 
 	@Test
-	void helloJsonTest() throws Exception {
+	void 같은_Content_Type을_넘기는_경우() throws Exception {
 		mockMvc.perform(get("/helloJson")
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.accept(MediaType.APPLICATION_JSON_VALUE))
@@ -59,7 +60,7 @@ class SampleControllerTest {
 	}
 
 	@Test
-	void helloJsonTest1() throws Exception {
+	void 다른_Content_Type을_넘기는경우_예외가_발생한다() throws Exception {
 		mockMvc.perform(get("/helloJson")
 				.contentType(MediaType.APPLICATION_XML_VALUE))
 				.andDo(print())
@@ -67,12 +68,43 @@ class SampleControllerTest {
 	}
 
 	@Test
-	void helloJsonTest2() throws Exception {
+	void 다른_Accept_를_넘기는경우_예외가_발생한다() throws Exception {
 		mockMvc.perform(get("/helloJson")
 				.contentType(MediaType.APPLICATION_JSON_VALUE)
 				.accept(MediaType.APPLICATION_XML_VALUE))
 				.andDo(print())
 				.andExpect(status().isNotAcceptable());
+	}
+
+	@Test
+	void 헤더를_넘기는경우() throws Exception {
+		mockMvc.perform(get("/header")
+				.header(HttpHeaders.FROM, "localhost"))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void 다른_헤더를_넘기는경우_예외가_발생한다() throws Exception {
+		mockMvc.perform(get("/header")
+				.header(HttpHeaders.AUTHORIZATION, "test"))
+				.andDo(print())
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void 파라미터을_넘기는경우() throws Exception {
+		mockMvc.perform(get("/param")
+				.param("name", "name"))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void 파라미터를_넘기지_않는경우_예외가_발생한다() throws Exception {
+		mockMvc.perform(get("/param"))
+				.andDo(print())
+				.andExpect(status().isBadRequest());
 	}
 
 }

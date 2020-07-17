@@ -1,10 +1,11 @@
 package me.will.demowebmvc.controller;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * HTTP Method
@@ -37,17 +38,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * - idemponent
  */
 
-@Controller
+@RestController
 public class SampleController {
 
 	@RequestMapping("/hello") // 따로 HTTP Method를 지정하지 않으면, 기본적으로 모든 HTTP Method.
-	@ResponseBody
 	public String hello() {
 		return "hello";
 	}
 
 	@RequestMapping(value = "bye", method = RequestMethod.GET)
-	@ResponseBody
 	public String bye() {
 		return "bye";
 	}
@@ -57,9 +56,18 @@ public class SampleController {
 			consumes = MediaType.APPLICATION_JSON_VALUE, // Content-Type
 			produces = MediaType.APPLICATION_JSON_VALUE // Accept
 	)
-	@ResponseBody
 	public String helloJson() {
 		return "helloJson";
+	}
+
+	@GetMapping(value = "/header", headers = HttpHeaders.FROM)
+	public String headerTest() {
+		return "header";
+	}
+
+	@GetMapping(value = "/param", params = "name")
+	public String param() {
+		return "param";
 	}
 
 }
