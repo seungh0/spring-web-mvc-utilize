@@ -1,5 +1,6 @@
 package me.will.demowebmvc.controller;
 
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -49,6 +50,16 @@ public class SampleController {
 	@ResponseBody
 	public String bye() {
 		return "bye";
+	}
+
+	@RequestMapping(
+			value = "/helloJson",
+			consumes = MediaType.APPLICATION_JSON_VALUE, // Content-Type
+			produces = MediaType.APPLICATION_JSON_VALUE // Accept
+	)
+	@ResponseBody
+	public String helloJson() {
+		return "helloJson";
 	}
 
 }
