@@ -38,6 +38,17 @@ import org.springframework.web.bind.annotation.RestController;
  * - idemponent
  */
 
+
+/**
+ * HEAD, OPTIONS 요청 처리
+ *
+ * HEAD
+ * * Get 요청과 동일하지만, 응답 본문을 받아오지 않고, 응답 헤더만 받아온다.
+ *
+ * OPTIONS
+ * * 사용할 수 있는  Http Method 제공
+ * * 서버 또는 특정 리소스가 제공하는 기능을 확인 할 수 있다.
+ */
 @RestController
 public class SampleController {
 

@@ -7,10 +7,15 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static org.hamcrest.CoreMatchers.containsString;
+import static org.hamcrest.CoreMatchers.hasItems;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.head;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest
@@ -105,6 +110,26 @@ class SampleControllerTest {
 		mockMvc.perform(get("/param"))
 				.andDo(print())
 				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	void HEAD_요청은_응답본문을_받아오지_않는다() throws Exception {
+		mockMvc.perform(head("/hello"))
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(content().string(""));
+	}
+
+	@Test
+	void OPTIONS() throws Exception {
+		mockMvc.perform(options("/bye")) // Headers = [Allow:"GET,HEAD,OPTIONS"]
+				.andDo(print())
+				.andExpect(status().isOk())
+				.andExpect(header().exists(HttpHeaders.ALLOW))
+				.andExpect(header().stringValues(HttpHeaders.ALLOW, hasItems(
+						containsString("GET"),
+						containsString("HEAD"),
+						containsString("OPTIONS"))));
 	}
 
 }
