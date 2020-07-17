@@ -3,6 +3,7 @@ package me.will.demowebmvc.controller;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,6 +47,32 @@ class SampleControllerTest {
 		mockMvc.perform(post("/bye"))
 				.andDo(print())
 				.andExpect(status().isMethodNotAllowed());
+	}
+
+	@Test
+	void helloJsonTest() throws Exception {
+		mockMvc.perform(get("/helloJson")
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE))
+				.andDo(print())
+				.andExpect(status().isOk());
+	}
+
+	@Test
+	void helloJsonTest1() throws Exception {
+		mockMvc.perform(get("/helloJson")
+				.contentType(MediaType.APPLICATION_XML_VALUE))
+				.andDo(print())
+				.andExpect(status().isUnsupportedMediaType());
+	}
+
+	@Test
+	void helloJsonTest2() throws Exception {
+		mockMvc.perform(get("/helloJson")
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_XML_VALUE))
+				.andDo(print())
+				.andExpect(status().isNotAcceptable());
 	}
 
 }
